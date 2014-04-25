@@ -1,6 +1,5 @@
 import os, datetime
 from flask import Flask, request
-#import clipswap
 
 app = Flask(__name__)
 
@@ -57,10 +56,8 @@ def wrecv():
 @app.route(BASE_URL + '/send', methods=['POST'])
 def send():
     'API call to send a clip to server'
-#    reload(clipswap)
     print '=' * 40, 'push', request.method
     print type(request)
-    print dir(request)
     old = CLIP.newest()
     new = request.form['clip']
     CLIP.push(new)
@@ -84,4 +81,11 @@ def status():
 def debug():
     html = '<title>debug</title>'
     return html + tag_pre(CLIP.newest()) + '<BR>======================<BR>' + repr(CLIP.newest())
+
+####################### SPIT TEST
+import spit
+@app.route('/myspit')
+def myspit():
+    reload(spit)
+    return spit.myspit(CLIP.newest())
 
