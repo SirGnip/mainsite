@@ -10,10 +10,10 @@ def _word_len_to_delay(word):
         return 0
     elif size < 7:
         return 20
-    elif size < 10:
+    elif size < 12:
         return 40
     else:
-        return 70
+        return 150 
 
 class Chunk(object):
     # See if I can determine actual spritz timings for delays after periods, commas, newlines...
