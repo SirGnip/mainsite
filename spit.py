@@ -46,12 +46,8 @@ class Chunk(object):
         self.timeline = 0
     def as_js(self):
         return '%d,%d,"%s"' % (self.timeline, self.delay, self.word)
-        
-def myspit(msg):
-    d = os.path.dirname(__file__)
-    os.chdir(d)
-    html = open('spit_templ.html').read()
 
+def make_chunks(msg):
     # escape double quotes so they don't throw off the generated JavaScript
     msg = msg.replace('"', r'\"')
     # Encode newlines so I can convert it to a pause later in the process
@@ -63,14 +59,21 @@ def myspit(msg):
     chunks = []
     for token in tokens:
         chunks += Chunk.factory(token)
+    return chunks
+
+def myspit(msg):
+    d = os.path.dirname(__file__)
+    os.chdir(d)
+    html = open('spit_templ.html').read()
+
+    chunks = make_chunks(msg)
     js_chunks = [c.as_js() for c in chunks]
     js_output = ','.join(js_chunks)
 
     output = '<ul>\n'
-    for w in tokens:
-        output += '<li>' + w + '</li>\n'
+    for c in chunks:
+        output += '<li>' + c.word + '</li>\n'
     output += '</ul>\n'
     output += '</ul>\n'
     return html % (output, js_output)
-
 
