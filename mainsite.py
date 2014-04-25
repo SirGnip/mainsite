@@ -1,8 +1,10 @@
 import os, datetime
 from flask import Flask, request
-import clipswap
+#import clipswap
 
 app = Flask(__name__)
+
+BASE_URL = '/clipshout'
 
 class ClipList(list):
     def __init__(self, max_len, *args):
@@ -21,18 +23,18 @@ class ClipList(list):
         return self[0]
 
 
-CLIP = ClipList(max_len=20)
+CLIP = ClipList(max_len=50)
 CLIP.push('default clip')
 
 def tag_pre(txt):
     return '<PRE>\n%s\n</PRE>' % txt
 
-@app.route('/clipswap/wsend')
+@app.route(BASE_URL + '/wsend')
 def wsend():
     'web-send: a web-based way to send a clip'
     html = '''
     <title>wsend</title>
-    <form action="http://juxtaflux.pythonanywhere.com/clipswap/send" method="post">
+    <form action="send" method="post">
         <textarea name="clip" cols="40" rows="10"></textarea>
         <br>
         <input type="submit" value="Ok">
@@ -40,7 +42,7 @@ def wsend():
     '''
     return html
 
-@app.route('/clipswap/wrecv')
+@app.route(BASE_URL + '/wrecv')
 def wrecv():
     'web-receive: a web-based way to receive the clip'
     html = '''
@@ -52,7 +54,7 @@ def wrecv():
         html += tag_pre(CLIP.newest())
     return html
 
-@app.route('/clipswap/send', methods=['POST'])
+@app.route(BASE_URL + '/send', methods=['POST'])
 def send():
     'API call to send a clip to server'
 #    reload(clipswap)
@@ -64,12 +66,12 @@ def send():
     CLIP.push(new)
     return 'Changed clip from "%s" to "%s"' % (old, new)
 
-@app.route('/clipswap/recv')
+@app.route(BASE_URL + '/recv')
 def recv():
     'API call to get clip from server'
     return CLIP.newest()
 
-@app.route('/clipswap/status')
+@app.route(BASE_URL + '/status')
 def status():
     items = []
     for item in CLIP:
@@ -78,7 +80,7 @@ def status():
     html += '<HR>\n'.join(items)
     return html
 
-@app.route('/clipswap/debug')
+@app.route(BASE_URL + '/debug')
 def debug():
     html = '<title>debug</title>'
     return html + tag_pre(CLIP.newest()) + '<BR>======================<BR>' + repr(CLIP.newest())
