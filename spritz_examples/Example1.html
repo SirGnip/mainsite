@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	
+	<link rel="stylesheet" type="text/css" href="css/all.css">
+	
+	<!-- jQuery dependency -->
+	<script type="text/javascript" src="//sdk.spritzinc.com/jQuery/jquery-2.1.0.min.js"></script>
+	<script type="text/javascript" src="//sdk.spritzinc.com/js/1.0/js/spritz.min.js"></script>
+
+	<!-- Global settings for the examples -->
+	<script type="text/javascript">
+		var SpritzSettings = {
+			clientId: "4524122930975538943",
+			redirectUri: "http://sdk.spritzinc.com/js/1.0/examples/login_success.html",
+			
+		};
+	</script>
+	
+	<title>Javascript SDK Examples</title>
+
+</head>
+
+<body>
+
+	<!-- Header -->
+	<header class="navbar navbar-static-top main-header">
+		<div class="container-fluid">
+			<div class="col-md-2">
+				<img class="navbar-brand" src="example-images/spritz-logo.png" alt="Spritz-logo" />
+			</div>
+			<div class="col-md-10">
+				<span class="site-title">Javscript SDK</span>
+			</div>
+		</div>
+		<div class="header-bg"></div>
+	</header>
+
+	<section class="container-fluid main-body">
+		
+		<!-- Examples side menu -->
+		<aside class="side-menu col-sm-2">
+			<ul class="list-unstyled">
+				<li>
+					<a href="Example1.html">Lesson 1</a>
+				</li>
+				<li>
+					<a href="Example2.html">Lesson 2</a>
+				</li>
+				<li>
+					<a href="Example3.html">Lesson 3</a>
+				</li>
+				<li>
+					<a href="Example4.html">Lesson 4</a>
+				</li>
+				<li>
+					<a href="Example5.html">Lesson 5</a>
+				</li>
+				<li>
+					<a href="Example6.html">Lesson 6</a>
+				</li>
+				<li>
+					<a href="Example7.html">Lesson 7</a>
+				</li>
+				<li>
+					<a href="Example8.html">Lesson 8</a>
+				</li>
+				<li>
+					<a href="Example9.html">Lesson 9</a>
+				</li>
+				<li>
+					<a href="Example10.html">Lesson 10</a>
+				</li>
+				<li>
+					<a href="Example11.html">Lesson 11</a>
+				</li>
+				<li>
+					<a href="Example12.html">Lesson 12</a>
+				</li>
+			</ul>
+		</aside>
+
+		<!-- Main content -->
+		<div class="col-sm-10">
+
+	<h1>Lesson 1 - Embedded Spritzer Controller</h1>	
+	
+	<div data-role="spritzer"></div>
+	  	
+  	<p>
+	  	  The following procedure describes the easiest way to use the Spritz SDK for JavaScript.<br>
+	  	   1. Load the JavaScript into your page.<br>
+	  	   2. Initialize the client with your application ID.<br>
+	  	   3. Define an element with <font face ="Courier New">data-role="spritzer"</font face> on your page.<br>
+	  	A redicle appears on your page that will spritz the page that hosts it.
+  	</p>
+  	
+	<a href="https://spritzinc.atlassian.net/wiki/display/jssdk/Lesson+1%3A+Embedding+the+Spritz+JavaScript+SDK">Read more documentation on Lesson 1</a>
+
+	<div>
+			<hr>
+
+			<!-- Download this example's files area -->
+			<div id="js-download-area" class="download-area">
+				<h4>
+					Supporting files to download for <span id="js-example-title"><!-- content inserted dynamically here --></span>
+				</h4>
+				
+				<p>
+					<a id="js-download-file" href="" download><!-- content inserted dynamically here --></a> (this file)
+				</p>
+
+				<p>
+					<a id="js-download-script" href="" download><!-- content inserted dynamically here --></a>
+				</p>
+				
+				<p>
+					<a href="login_success.html" download>login_success.html</a> (this is a required file to download and host on your website).
+				</p>
+
+			</div>
+
+			<hr>
+
+
+			<!-- Redirect URI instructions -->
+			<p>
+				For your login success file to work, point your redirectUri parameter to the location of your login_success.html file, and include the full protocol and path to this file.  For example your redirectUri setting should look something like:
+			</p>
+			<pre>redirectUri: &quot;http://mysite.com/login_success.html&quot;</pre>
+			<p>
+				Be sure your callback uri matches the originating domain. If your website user visits www.mysite.com/somepage.html, be sure your redirect uri includes www. If your website user is coming from mysite.com/somepage.html, be sure the redirect uri does not include www.
+			</p>
+
+	</div>
+
+
+
+		</div>
+	</section>
+	
+	<footer class="footer"></footer>
+
+	<script type="text/javascript" src="js/example-site.js"></script>
+
+</body>
+</html>
