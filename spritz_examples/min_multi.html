@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript" src="//sdk.spritzinc.com/jQuery/jquery-2.1.0.min.js"></script>
+        <script type="text/javascript" src="//sdk.spritzinc.com/js/1.0/js/spritz.min.js"></script>
+        <script type="text/javascript">
+                 var SpritzSettings = {
+                           clientId: "client_id_here",
+                           redirectUri:"http://mysite/sptztest/login_success.html"
+                 };
+        </script>
+    </head>
+    <body>
+        <input name="btn1" type="button" value="Flask" onClick="onBtn1()">
+        <input name="btn2" type="button" value="Python Tutorial" onClick="onBtn2()">
+        <input name="btn3" type="button" value="Define 'Computer'" onClick="onBtn3()">
+
+<script type="text/javascript">
+    function onBtn1() { $('#spritzer').data('controller').setUrl("http://flask.pocoo.org/"); }
+    function onBtn2() { $('#spritzer').data('controller').setUrl("https://docs.python.org/3/tutorial/index.html"); }
+    function onBtn3() { $('#spritzer').data('controller').setUrl("http://m.dictionary.com/definition/computer"); }
+</script>
+
+        <center><p><div id="spritzer" data-role="spritzer"></div></p></center>
+        <h1>Switch between multiple URLs</h1>
+        <p>This demo shows how to Spritz text from different external URL's</p>
+    </body>
+</html>
