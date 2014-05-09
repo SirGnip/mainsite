@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript" src="//sdk.spritzinc.com/jQuery/jquery-2.1.0.min.js"></script>
+        <script type="text/javascript" src="//sdk.spritzinc.com/js/1.0/js/spritz.min.js"></script>
+        <script type="text/javascript">
+                 var SpritzSettings = {
+                           clientId: "client_id_here",
+                           redirectUri:"http://mysite/login_success.html"
+                 };
+        </script>
+    </head>
+    <body>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        spritzController = new SPRITZ.spritzinc.SpritzerController();
+        spritzController.attach($("#spritzer"));
+        SpritzClient.spritzify("Ready to Start.  Second sentence. Thrid sentence.", "en_us", onSpritzifySuccess, onSpritzifyError);
+    });
+    function onSpritzifySuccess(spritzText) {
+        spritzController.startSpritzing(spritzText);
+    };
+    function onSpritzifyError(error) {
+        alert("ERROR when trying to Spritz: " + error.message);
+    };
+</script>
+
+        <center><p><div id="spritzer"></div></p></center>
+        <p>This demo Spritzes arbitrary text specified in the page</p>
+    </body>
+</html>

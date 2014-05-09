@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript" src="//sdk.spritzinc.com/jQuery/jquery-2.1.0.min.js"></script>
+        <script type="text/javascript" src="//sdk.spritzinc.com/js/1.0/js/spritz.min.js"></script>
+        <script type="text/javascript">
+                 var SpritzSettings = {
+                           clientId: "dclient_id_here",
+                           redirectUri:"http://mysite/sptztest/login_success.html"
+                 };
+        </script>
+    </head>
+    <body>
+<script type="text/javascript">
+    var txtBuff = '';
+
+    $(document).ready(function() {
+        spritzController = new SPRITZ.spritzinc.SpritzerController();
+        spritzController.attach($("#spritzer"));
+        spritzIt("Ready to Start");
+    });
+    function onSpritzifySuccess(spritzText) {
+        txtBuff = spritzText;
+    };
+    function onSpritzifyError(error) {
+        alert("Unable to Spritz: " + error.message);
+    };
+    function spritzIt(text) {
+        // Send to SpritzEngine to translate
+        SpritzClient.spritzify(text, "en_us", onSpritzifySuccess, onSpritzifyError);
+    };
+    function onBtn1() {
+        spritzIt("This is text1")
+    };
+    function onBtn2() {
+        spritzIt("This is some text that goes on and on. Good thing I have spritz.")
+    };
+
+    function onBtnStart() {
+        $.ajax({
+            type: "GET",
+            url: "/myapp/recv"
+        })
+        .done(function( msg ) {
+            console.log( "Data Saved: " + msg );
+        });
+
+        spritzController.startSpritzing(txtBuff);
+    };
+</script>
+
+        <center>
+            <p><div id="spritzer"></div></p>
+            <input name="btn1" type="button" value="Text 'A'" onClick="onBtn1()">
+            <input name="btn2" type="button" value="Text 'B'" onClick="onBtn2()">
+            <input name="btnStart" type="button" value="Start" onClick="onBtnStart()">
+            <p>
+            Press "Start" to start Spritzing the text. But, notice that you can't hit play on the Spritz widget until you click "Start"
+        </center>
+    </body>
+</html>
