@@ -91,9 +91,9 @@ def myspit():
 
 @app.route(BASE_URL + '/spritz')
 def spritz():
+    import os.path
     d = os.path.dirname(__file__)
     os.chdir(d)
     html = open('spritz_templ.html').read()
-    import config
-        
-    return html % config.as_dict()
+    import private_config
+    return html % private_config.as_dict()
