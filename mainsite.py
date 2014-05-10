@@ -89,3 +89,11 @@ def myspit():
     reload(spit)
     return spit.myspit(CLIP.newest())
 
+@app.route(BASE_URL + '/spritz')
+def spritz():
+    d = os.path.dirname(__file__)
+    os.chdir(d)
+    html = open('spritz_templ.html').read()
+    import config
+        
+    return html % config.as_dict()
