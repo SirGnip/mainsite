@@ -82,6 +82,13 @@ def debug():
     html = '<title>debug</title>'
     return html + tag_pre(CLIP.newest()) + '<BR>======================<BR>' + repr(CLIP.newest())
 
+import spritz
+@app.route(BASE_URL + '/spritz')
+def myspritz():
+    reload(spritz)
+    return spritz.spritz_clip(app, CLIP.newest())
+
+
 ####################### SPIT TEST
 import spit
 @app.route('/myspit')
@@ -89,11 +96,3 @@ def myspit():
     reload(spit)
     return spit.myspit(CLIP.newest())
 
-@app.route(BASE_URL + '/spritz')
-def spritz():
-    import os.path
-    d = os.path.dirname(__file__)
-    os.chdir(d)
-    html = open('spritz_templ.html').read()
-    import private_config
-    return html % private_config.as_dict()

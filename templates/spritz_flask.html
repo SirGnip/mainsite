@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Spritzing Clipshout</title>
+    <script type="text/javascript" src="//sdk.spritzinc.com/jQuery/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="//sdk.spritzinc.com/js/1.0/js/spritz.min.js"></script>
+    <script type="text/javascript">
+        var SpritzSettings = {
+            clientId: "{{SPRITZ_CLIENT_ID}}",
+            redirectUri:"{{ROOT_URL}}/login_success.html"
+        };
+    </script>
+</head>
+<body>
+{% if not SPRITZ_DATA_URL_ATTR %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        console.log('start')
+
+        var text = {{TEXT_TO_SPRITZ|safe}};
+        spritzController = new SPRITZ.spritzinc.SpritzerController();
+        spritzController.attach($("#spritzer"));
+        SpritzClient.spritzify(text, "en_us", onSpritzifySuccess, onSpritzifyError);
+        console.log('end')
+    });
+    function onSpritzifySuccess(spritzText) {
+        console.log('success')
+        spritzController.startSpritzing(spritzText);
+        console.log('success done')
+    };
+    function onSpritzifyError(error) {
+        alert("ERROR when trying to Spritz: " + error.message);
+    };
+</script>
+{% endif %}
+{% autoescape off %}
+    <center><p><div id="spritzer" {{SPRITZ_DATA_URL_ATTR}}></div></p></center>
+{% endautoescape %}
+</body>
+</html>
