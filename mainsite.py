@@ -50,7 +50,31 @@ def wrecv():
     if stripped.startswith('http://') or stripped.startswith('https://') or stripped.startswith('www.'):
         html += '<a href="%s">%s</a>' % (stripped, stripped)
     else:
-        html += tag_pre(CLIP.newest())
+        # html += tag_pre(CLIP.newest())
+        html = '''
+<PRE id=wrecv_txt>
+%s
+</PRE>
+new stuff
+<script>
+function selectElementText(el, win) {
+    win = win || window;
+    var doc = win.document, sel, range;
+    if (win.getSelection && doc.createRange) {
+        sel = win.getSelection();
+        range = doc.createRange();
+        range.selectNodeContents(el);
+        sel.removeAllRanges();
+        sel.addRange(range);
+    } else if (doc.body.createTextRange) {
+        range = doc.body.createTextRange();
+        range.moveToElementText(el);
+        range.select();
+    }
+}
+selectElementText(document.getElementById('wrecv_txt'));
+</script>
+        ''' % CLIP.newest()
     return html
 
 @app.route(BASE_URL + '/send', methods=['POST'])
@@ -96,3 +120,9 @@ def myspit():
     reload(spit)
     return spit.myspit(CLIP.newest())
 
+
+'''PythonAnywhere does not require app.run() as it runs this file based on config in the "Web" tab on the PythonAnywhere dashboard.
+But, it is still safe t orun app.run() in a function like this as it won't get run when PythonAnywhere imports the file.
+Reference: https://help.pythonanywhere.com/pages/Flask/'''
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=8080, debug=True)
