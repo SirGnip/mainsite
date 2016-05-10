@@ -1,0 +1,13 @@
+{% extends "clipshout_base.html" %}
+
+{% block pgtitle %}wrecv{% endblock %}
+
+{% block head_extras %}
+    <script language="JavaScript" src="static/clipshout_wrecv.js"></script>
+{% endblock %}
+
+{% block page_body %}
+    <div id="wrecv_text">
+    {{WRECV_BODY|safe}}
+    </div>
+{% endblock %}

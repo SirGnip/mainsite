@@ -1,9 +1,24 @@
 import os, datetime
-from flask import Flask, request
-
-app = Flask(__name__)
+from flask import Flask, request, Response, render_template
 
 BASE_URL = '/clipshout'
+app = Flask(__name__, static_folder='static', static_url_path=BASE_URL + '/static')
+
+
+def _add_cors_headers(response):
+    """Add CORS headers to given response object
+    Reference: https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS
+    Flask-specific reference: http://www.davidadamojr.com/handling-cors-requests-in-flask-restful-apis/"""
+    # I don't know if this is absolutely necessary, but I'm adding it to see if it gets rid of occasional failures
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
+
+def resp_with_cors(txt):
+    resp = Response(txt)
+    _add_cors_headers(resp)
+    return resp
+
 
 class ClipList(list):
     def __init__(self, max_len, *args):
@@ -31,51 +46,23 @@ def tag_pre(txt):
 @app.route(BASE_URL + '/wsend')
 def wsend():
     'web-send: a web-based way to send a clip'
-    html = '''
-    <title>wsend</title>
+    body = '''
     <form action="send" method="post">
-        <textarea name="clip" cols="40" rows="10"></textarea>
+        <input type="submit" value="Ok" style="height:3.0em;width:100%">
         <br>
-        <input type="submit" value="Ok">
-    </form>
-    '''
-    return html
+        <textarea name="clip" cols="40" rows="25"></textarea>
+    </form>'''
+    return resp_with_cors(render_template('clipshout_generic.html', PAGE_TITLE='wsend', BODY_TEXT=body))
 
 @app.route(BASE_URL + '/wrecv')
 def wrecv():
     'web-receive: a web-based way to receive the clip'
-    html = '''
-    <title>wrecv</title>\n'''
     stripped = CLIP.newest().strip()
     if stripped.startswith('http://') or stripped.startswith('https://') or stripped.startswith('www.'):
-        html += '<a href="%s">%s</a>' % (stripped, stripped)
+        text = '<a href="%s">%s</a>' % (stripped, stripped)
     else:
-        # html += tag_pre(CLIP.newest())
-        html = '''
-<PRE id=wrecv_txt>
-%s
-</PRE>
-new stuff
-<script>
-function selectElementText(el, win) {
-    win = win || window;
-    var doc = win.document, sel, range;
-    if (win.getSelection && doc.createRange) {
-        sel = win.getSelection();
-        range = doc.createRange();
-        range.selectNodeContents(el);
-        sel.removeAllRanges();
-        sel.addRange(range);
-    } else if (doc.body.createTextRange) {
-        range = doc.body.createTextRange();
-        range.moveToElementText(el);
-        range.select();
-    }
-}
-selectElementText(document.getElementById('wrecv_txt'));
-</script>
-        ''' % CLIP.newest()
-    return html
+        text = '<pre>' + CLIP.newest() + '</pre>'
+        return resp_with_cors(render_template('clipshout_wrecv.html', WRECV_BODY=text))
 
 @app.route(BASE_URL + '/send', methods=['POST'])
 def send():
@@ -85,12 +72,13 @@ def send():
     old = CLIP.newest()
     new = request.form['clip']
     CLIP.push(new)
-    return 'Changed clip from "%s" to "%s"' % (old, new)
+    body = 'Changed clip from "%s" to "%s"' % (old, new)
+    return resp_with_cors(render_template('clipshout_generic.html', PAGE_TITLE='send', BODY_TEXT=body))
 
 @app.route(BASE_URL + '/recv')
 def recv():
     'API call to get clip from server'
-    return CLIP.newest()
+    return resp_with_cors(CLIP.newest())
 
 @app.route(BASE_URL + '/status')
 def status():
@@ -99,12 +87,13 @@ def status():
         items.append(tag_pre(item))
     html = '<title>status</title>\n'
     html += '<HR>\n'.join(items)
-    return html
+    return resp_with_cors(render_template('clipshout_generic.html', PAGE_TITLE='status', BODY_TEXT=html))
 
 @app.route(BASE_URL + '/debug')
 def debug():
     html = '<title>debug</title>'
-    return html + tag_pre(CLIP.newest()) + '<BR>======================<BR>' + repr(CLIP.newest())
+    html = html + tag_pre(CLIP.newest()) + '<BR>======================<BR>' + repr(CLIP.newest())
+    return resp_with_cors(render_template('clipshout_generic.html', PAGE_TITLE='debug', BODY_TEXT=html))
 
 import spritz
 @app.route(BASE_URL + '/spritz')
