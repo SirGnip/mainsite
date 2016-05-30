@@ -62,7 +62,7 @@ def wrecv():
         text = '<a href="%s">%s</a>' % (stripped, stripped)
     else:
         text = '<pre>' + CLIP.newest() + '</pre>'
-        return resp_with_cors(render_template('clipshout_wrecv.html', WRECV_BODY=text))
+    return resp_with_cors(render_template('clipshout_wrecv.html', WRECV_BODY=text))
 
 @app.route(BASE_URL + '/send', methods=['POST'])
 def send():
