@@ -1,4 +1,3 @@
-import os, datetime
 from flask import Flask, request, Response, render_template
 
 BASE_URL = '/clipshout'
@@ -67,8 +66,8 @@ def wrecv():
 @app.route(BASE_URL + '/send', methods=['POST'])
 def send():
     'API call to send a clip to server'
-    print '=' * 40, 'push', request.method
-    print type(request)
+    print('=' * 40, 'push', request.method)
+    print(type(request))
     old = CLIP.newest()
     new = request.form['clip']
     CLIP.push(new)
@@ -98,7 +97,7 @@ def debug():
 import spritz
 @app.route(BASE_URL + '/spritz')
 def myspritz():
-    reload(spritz)
+    #reload(spritz)
     return spritz.spritz_clip(app, CLIP.newest())
 
 
@@ -106,12 +105,12 @@ def myspritz():
 import spit
 @app.route('/myspit')
 def myspit():
-    reload(spit)
+    #reload(spit)
     return spit.myspit(CLIP.newest())
 
 
 '''PythonAnywhere does not require app.run() as it runs this file based on config in the "Web" tab on the PythonAnywhere dashboard.
-But, it is still safe t orun app.run() in a function like this as it won't get run when PythonAnywhere imports the file.
+But, it is still safe to run app.run() in a function like this as it won't get run when PythonAnywhere imports the file.
 Reference: https://help.pythonanywhere.com/pages/Flask/'''
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=True)
